@@ -62,7 +62,34 @@ class SubscriptionServiceTest extends TestCase
         $expected = array_search($customerId, array_column($this->subscriptionsMock, 'customerId'));
         $returned = $this->subscriptionService->findByCustomerId($customerId);
 
-        $this->assertEquals($this->subscriptionsMock[$expected], $returned);
+        $this->assertEquals($this->subscriptionsMock[$expected], ...$returned);
+    }
+
+    public function testRemovePet()
+    {
+        $subscriptionId = 1;
+        $petId = 2;
+
+        $expected = $this->subscriptionsMock[0];
+        $expected['pets'] = array_filter($expected['pets'], function($pet) use ($petId) {
+            return $pet['id'] != $petId;
+        });
+
+        $returned = $this->subscriptionService->removePet($subscriptionId, $petId);
+
+        $this->assertEquals($expected, $returned);
+    }
+
+    public function testUpdateNextOrderDate()
+    {
+        $subscriptionId = 2;
+        $newNextOrderDate = '2021-09-15';
+        $expected = $this->subscriptionsMock[1];
+        $expected['nextOrderDate'] = $newNextOrderDate;
+        
+        $returned = $this->subscriptionService->updateNextOrderDate($subscriptionId, $newNextOrderDate);
+
+        $this->assertEquals($expected, $returned);
     }
 
 }

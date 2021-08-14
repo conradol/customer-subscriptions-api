@@ -53,4 +53,24 @@ class SubscriptionService
 
         return $subscription;
     }
+
+    public function removePet($subscriptionId, $petId) 
+    {
+        $index = array_search($subscriptionId, array_column($this->subscriptions, 'id'));
+
+        $this->subscriptions[$index]['pets'] = array_filter($this->subscriptions[$index]['pets'], function($pet) use ($petId) {
+            return $pet['id'] != $petId;
+        });
+
+        return $this->subscriptions[$index];
+    }
+
+    public function updateNextOrderDate($id, $newNextOrderDate)
+    {
+        $index = array_search($id, array_column($this->subscriptions, 'id'));
+
+        $this->subscriptions[$index]['nextOrderDate'] = $newNextOrderDate;
+
+        return $this->subscriptions[$index];
+    }
 }
