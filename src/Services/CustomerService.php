@@ -1,6 +1,8 @@
 <?php
 namespace App\Services;
 
+use App\Models\Customer as Customer;
+
 class CustomerService {
 
     private $customers = [
@@ -20,7 +22,8 @@ class CustomerService {
         ]
     ];
 
-    public function findAll(): array
+
+    public function findAll()
     {
         return $this->customers;
     }

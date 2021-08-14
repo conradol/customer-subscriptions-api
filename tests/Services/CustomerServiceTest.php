@@ -53,5 +53,4 @@ class CustomerServiceTest extends TestCase
         
         $this->assertEquals($expected, $returned);
     }
-
 }
