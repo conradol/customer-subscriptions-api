@@ -31,13 +31,11 @@ class SubscriptionService
 
     public function updateNextOrderDate($id, $newNextOrderDate)
     {   
-        $newNextOrderDate = new DateTime($newNextOrderDate);
-        $newNextOrderDate = $newNextOrderDate->format('Y-m-d');
         return $this->subscriptionRepository->edit($id, ['next_order_date' => $newNextOrderDate]);
     }
 
     public function dispatch($id)
     {
-        return $this->updateNextOrderDate($id, new DateTime());
+        return $this->updateNextOrderDate($id, date('Y-m-d'));
     }
 }

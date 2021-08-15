@@ -12,19 +12,15 @@ services:
         command: php -S 0.0.0.0:8080 -t public
         environment:
             - DOCKER=1
-            - MYSQL_DATABASE=test
-            - MYSQL_USER=root
-            - MYSQL_PASSWORD=root
-            - MYSQL_HOST=db
         ports:
-            - 8080:8080
+            - ${SERVICE_PORT}:8080
         volumes:
             - .:/var/www
             - logs:/var/www/logs
     db:
         image: library/mysql:8.0.20
         ports:
-        - "3306:3306"
+        - "${MYSQL_PORT}:3306"
         environment:
-        - MYSQL_DATABASE=test
-        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}

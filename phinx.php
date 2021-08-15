@@ -1,4 +1,9 @@
 <?php
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 
 return
 [
@@ -11,29 +16,29 @@ return
         'default_environment' => 'development',
         'production' => [
             'adapter' => 'mysql',
-            'host' => 'localhost',
-            'name' => 'production_db',
-            'user' => 'root',
-            'pass' => '',
-            'port' => '3306',
+            'host' => $_ENV['PHINX_MYSQL_HOST'],
+            'name' => $_ENV['MYSQL_DATABASE'],
+            'user' => $_ENV['MYSQL_USER'],
+            'pass' => $_ENV['MYSQL_PASSWORD'],
+            'port' => $_ENV['MYSQL_PORT'],
             'charset' => 'utf8',
         ],
         'development' => [
             'adapter' => 'mysql',
-            'host' => '127.0.0.1',
-            'name' => 'test',
-            'user' => 'root',
-            'pass' => 'root',
-            'port' => '3306',
+            'host' => $_ENV['PHINX_MYSQL_HOST'],
+            'name' => $_ENV['MYSQL_DATABASE'],
+            'user' => $_ENV['MYSQL_USER'],
+            'pass' => $_ENV['MYSQL_PASSWORD'],
+            'port' => $_ENV['MYSQL_PORT'],
             'charset' => 'utf8',
         ],
         'testing' => [
             'adapter' => 'mysql',
-            'host' => 'localhost',
-            'name' => 'testing_db',
-            'user' => 'root',
-            'pass' => '',
-            'port' => '3306',
+            'host' => $_ENV['PHINX_MYSQL_HOST'],
+            'name' => $_ENV['MYSQL_DATABASE'],
+            'user' => $_ENV['MYSQL_USER'],
+            'pass' => $_ENV['MYSQL_PASSWORD'],
+            'port' => $_ENV['MYSQL_PORT'],
             'charset' => 'utf8',
         ]
     ],
