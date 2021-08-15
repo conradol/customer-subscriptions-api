@@ -21,8 +21,8 @@ final class SubscriptionMigration extends AbstractMigration
         $table = $this->table('subscription');
         $table
             ->addColumn('customer_id', 'integer')
-            ->addColumn('base_price', 'decimal')
-            ->addColumn('total_price', 'decimal')
+            ->addColumn('base_price', 'float')
+            ->addColumn('total_price', 'float')
             ->addColumn('next_order_date', 'date')
             ->addColumn('create_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('updated_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])

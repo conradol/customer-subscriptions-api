@@ -23,7 +23,7 @@ class SubscriptionController
         $result = $this->subscriptionService->removePet($petId);
 
         if (!$result) {
-            throw new HttpNotFoundException($request, `Pet $petId not found`);
+            throw new HttpNotFoundException($request, "Pet $petId not found");
         }
         
         return $response->withStatus(204, "Deleted");
@@ -45,7 +45,7 @@ class SubscriptionController
         $subscription = $this->subscriptionService->updateNextOrderDate($id, $body['next_order_date']);
 
         if(!$subscription) {
-            throw new HttpNotFoundException($request, `Subscription $id not found`);
+            throw new HttpNotFoundException($request, "Subscription $id not found");
         }
 
         $response->getBody()->write(json_encode($subscription));
@@ -57,10 +57,8 @@ class SubscriptionController
         $id = $args['id'];
         $result = $this->subscriptionService->dispatch($id);
 
-        $response->getBody()->write(json_encode($result));
-
         if (!$result) {
-            $response->withStatus(500);
+            throw new HttpNotFoundException($request, "Subscription $id not found");
         }
 
         return $response;

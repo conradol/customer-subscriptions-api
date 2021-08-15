@@ -38,7 +38,7 @@ class CustomerController
         $customer = $this->customerService->editName($id, $body['name']);
 
         if (!$customer) {
-            throw new HttpNotFoundException($request, `Customer $id not found`);
+            throw new HttpNotFoundException($request, "Customer $id not found");
         }
 
         $response->getBody()->write(json_encode($customer));

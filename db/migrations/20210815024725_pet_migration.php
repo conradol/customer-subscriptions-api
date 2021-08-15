@@ -22,7 +22,7 @@ final class PetMigration extends AbstractMigration
         $table
             ->addColumn('subscription_id', 'integer')
             ->addColumn('name', 'string')
-            ->addColumn('weight', 'decimal')
+            ->addColumn('weight', 'float')
             ->addColumn('gender', 'enum', ['values' => ['male', 'female']])
             ->addColumn('lifestage', 'enum', ['values' => ['puppy', 'adult', 'senior']])
             ->addColumn('create_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
