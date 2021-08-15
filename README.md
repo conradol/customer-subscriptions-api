@@ -4,8 +4,7 @@
 
   
 
-A API to manager customers subscriptions
-
+This project is a REST API to manager customer subscription, developed with PHP using [Slim Framework 4](https://www.slimframework.com/docs/v4/) and [Eloquent ORM](https://laravel.com/docs/5.0/eloquent)
   
 
 ### Requirements
