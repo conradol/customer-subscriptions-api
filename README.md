@@ -140,9 +140,13 @@ composer test
 	}
 	```
 - Delete pet:
+
 	`DELETE` `/subscription/{id}/pet/{petId}`
+	
 	response: `204`
 	
 - Dispatch subscription now
+
 	`POST` `/subscription/{id}/dispatch`
+	
 	response: `200`
