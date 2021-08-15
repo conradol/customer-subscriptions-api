@@ -1,8 +1,10 @@
 {
     "require": {
-        "slim/slim": "*",
-        "slim/psr7": "*",
-        "illuminate/database": "*"
+        "illuminate/database": "^8.54",
+        "php-di/php-di": "^6.0",
+        "robmorgan/phinx": "^0.12.7",
+        "slim/psr7": "^1",
+        "slim/slim": "^4.4"
     },
     "autoload": {
         "psr-4": {
@@ -15,10 +17,15 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.4"
+        "phpunit/phpunit": "^8.4"
+    },
+    "config": {
+        "process-timeout": 0,
+        "sort-packages": true
     },
     "scripts": {
         "test": "phpunit --configuration phpunit.xml",
-        "test:coverage": "phpunit --configuration phpunit.xml --coverage-clover build/logs/clover.xml --coverage-html build/coverage"
+        "test:coverage": "phpunit --configuration phpunit.xml --coverage-clover build/logs/clover.xml --coverage-html build/coverage",
+        "phinx": "vendor/bin/phinx"
     }
 }

@@ -11,10 +11,10 @@ class CustomerController
     private $customerService;
     private $subscriptionService;
 
-    public function __construct()
+    public function __construct(CustomerService $customerService, SubscriptionService $subscriptionService)
     {
-        $this->customerService = new CustomerService();
-        $this->subscriptionService = new SubscriptionService();    
+        $this->customerService = $customerService;
+        $this->subscriptionService = $subscriptionService;    
     }
 
     public function index(Request $request, Response $response, $args) 

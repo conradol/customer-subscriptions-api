@@ -10,21 +10,20 @@ class SubscriptionController
 {
     private $subscriptionService;
 
-    public function __construct()
+    public function __construct(SubscriptionService $subscriptionService)
     {
-        $this->subscriptionService = new SubscriptionService();
+        $this->subscriptionService = $subscriptionService;
     }
 
     public function removePet(Request $request, Response $response, $args)
     {
-        $subscriptionId = $args['id'];
         $petId = $args['petId'];
 
-        $this->subscriptionService->removePet($subscriptionId, $petId);
+        $this->subscriptionService->removePet($petId);
 
         return $response->withStatus(204, "Deleted");
     }
-
+    
     public function updateNextOrderDate(Request $request, Response $response, $args) 
     {
         $subscriptionId = $args['id'];
@@ -40,16 +39,12 @@ class SubscriptionController
     public function dispatchOrder(Request $request, Response $response, $args)
     {
         $subscriptionId = $args['id'];
-        $now = new DateTime();
-        $newNextOrderDate = $now->format('Y-m-d');
+        $result = $this->subscriptionService->updateNextOrderDate($subscriptionId);
 
-        $subscription = $this->subscriptionService->updateNextOrderDate($subscriptionId, $newNextOrderDate);
+        $response->getBody()->write(json_encode($result));
 
-        if($subscription['nextOrderDate'] == $newNextOrderDate) {
-            $response->getBody()->write(json_encode(true));
-        } else {
+        if (!$result) {
             $response->withStatus(500);
-            $response->getBody()->write(json_encode(false));
         }
 
         return $response;
