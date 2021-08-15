@@ -51,27 +51,29 @@ class CustomerServiceTest extends TestCase
         $this->assertEquals($this->customerService->findAll(), []);
     }
 
-    public function testEditNameMustReturnTrueIfSuccess(): void
+    public function testEditNameSuccess(): void
     {
         $id = 2;
         $name = 'Customer Edited';
+        $expected = $this->customersMock[1];
+        $expected['name'] = $name;
 
-        $this->customerRepositoryMock->method('edit')->willReturn(true);
+        $this->customerRepositoryMock->method('edit')->willReturn($expected);
         
         $returned = $this->customerService->editName($id, $name);
         
-        $this->assertTrue($returned);
+        $this->assertEquals($expected, $returned);
     }
 
-    public function testEditNameMustReturnFalseIfFail(): void
+    public function testEditNameFail(): void
     {   
         $id = 1;
         $name = 'Customer Edited';
 
-        $this->customerRepositoryMock->method('edit')->willReturn(false);
+        $this->customerRepositoryMock->method('edit')->willReturn(null);
 
         $returned = $this->customerService->editName($id, $name);
 
-        $this->assertFalse($returned);
+        $this->assertNull($returned);
     }
 }

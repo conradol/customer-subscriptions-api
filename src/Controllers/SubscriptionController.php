@@ -2,9 +2,10 @@
 namespace App\Controllers;
 
 use App\Services\SubscriptionService;
-use DateTime;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Exception\HttpBadRequestException;
+use Slim\Exception\HttpNotFoundException;
 
 class SubscriptionController
 {
@@ -19,18 +20,33 @@ class SubscriptionController
     {
         $petId = $args['petId'];
 
-        $this->subscriptionService->removePet($petId);
+        $result = $this->subscriptionService->removePet($petId);
 
+        if (!$result) {
+            throw new HttpNotFoundException($request, `Pet $petId not found`);
+        }
+        
         return $response->withStatus(204, "Deleted");
     }
     
     public function updateNextOrderDate(Request $request, Response $response, $args) 
     {
-        $subscriptionId = $args['id'];
+        $id = $args['id'];
         $body = json_decode($request->getBody(), true);
-        $newNextOrderDate = $body['nextOrderDate'];
+        
+        if (empty($body['next_order_date'])) { 
+            throw new HttpBadRequestException($request, 'next_order_date is required');
+        }
 
-        $subscription = $this->subscriptionService->updateNextOrderDate($subscriptionId, $newNextOrderDate);
+        if (\DateTime::createFromFormat('Y-m-d', $body['next_order_date']) === false) {
+            throw new HttpBadRequestException($request, 'next_order_date must be a valid date');
+        }
+
+        $subscription = $this->subscriptionService->updateNextOrderDate($id, $body['next_order_date']);
+
+        if(!$subscription) {
+            throw new HttpNotFoundException($request, `Subscription $id not found`);
+        }
 
         $response->getBody()->write(json_encode($subscription));
         return $response;
@@ -38,8 +54,8 @@ class SubscriptionController
 
     public function dispatchOrder(Request $request, Response $response, $args)
     {
-        $subscriptionId = $args['id'];
-        $result = $this->subscriptionService->updateNextOrderDate($subscriptionId);
+        $id = $args['id'];
+        $result = $this->subscriptionService->dispatch($id);
 
         $response->getBody()->write(json_encode($result));
 

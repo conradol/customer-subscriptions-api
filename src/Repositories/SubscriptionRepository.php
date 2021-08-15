@@ -14,11 +14,10 @@ class SubscriptionRepository
     {
         $subscription = Subscription::find($id);
 
-        if ($subscription)
-        {
-            return $subscription->update($data);
+        if ($subscription) {
+            $subscription->update($data);
         }
 
-        return false;
+        return $subscription;
     }
 }

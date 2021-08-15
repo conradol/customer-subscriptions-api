@@ -5,6 +5,8 @@ use App\Services\CustomerService;
 use App\Services\SubscriptionService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Exception\HttpBadRequestException;
+use Slim\Exception\HttpNotFoundException;
 
 class CustomerController 
 {
@@ -27,10 +29,17 @@ class CustomerController
     public function editName(Request $request, Response $response, $args)
     {
         $body = json_decode($request->getBody(), true);
-        $name = $body['name'];
+
+        if(empty($body['name'])) {
+            throw new HttpBadRequestException($request, 'name is required');
+        }
+
         $id = $args['id'];
-        
-        $customer = $this->customerService->editName($id, $name);
+        $customer = $this->customerService->editName($id, $body['name']);
+
+        if (!$customer) {
+            throw new HttpNotFoundException($request, `Customer $id not found`);
+        }
 
         $response->getBody()->write(json_encode($customer));
         return $response;

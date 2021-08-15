@@ -9,8 +9,7 @@ class PetRepository
     {
         $pet = Pet::find($id);
 
-        if ($pet) 
-        {
+        if ($pet) {
             return $pet->delete();
         }
 

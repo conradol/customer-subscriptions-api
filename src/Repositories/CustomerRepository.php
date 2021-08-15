@@ -14,10 +14,10 @@ class CustomerRepository
     {
         $customer = Customer::find($id);
 
-        if($customer) {
-            return $customer->update($data);
+        if(!empty($customer)) {
+            $customer->update($data);
         }
 
-        return false;
+        return $customer;
     }
 }

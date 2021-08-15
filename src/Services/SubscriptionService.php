@@ -7,48 +7,6 @@ use DateTime;
 
 class SubscriptionService
 {
-    private $subscriptions = [
-        [
-            'id' => 1,
-            'customer_id' => 1,
-            'base_price' => 50,
-            'total_price' => 100,
-            'next_order_date' => '2021-08-14',
-            'pet' => [
-                [
-                    'id' => 1,
-                    'name' => 'Pet One',
-                    'gender' => 'female',
-                    'lifestage' => 'adult',
-                    'weight' => 10,
-                ],
-                [
-                    'id' => 2,
-                    'name' => 'Pet Two',
-                    'gender' => 'male',
-                    'lifestage' => 'puppy',
-                    'weight' => 3,
-                ]
-            ]
-        ],
-        [
-            'id' => 2,
-            'customer_id' => 2,
-            'base_price' => 50,
-            'total_price' => 50,
-            'next_order_date' => '2021-08-15',
-            'pet' => [
-                [
-                    'id' => 1,
-                    'name' => 'Pet One',
-                    'gender' => 'female',
-                    'lifestage' => 'adult',
-                    'weight' => 10,
-                ]
-            ]
-        ]
-    ];
-
     private $subscriptionRepository;
     private $petRepository;
 
@@ -71,9 +29,15 @@ class SubscriptionService
         return $this->petRepository->delete($petId);
     }
 
-    public function updateNextOrderDate($id)
+    public function updateNextOrderDate($id, $newNextOrderDate)
     {   
-        $newNextOrderDate = new DateTime();
+        $newNextOrderDate = new DateTime($newNextOrderDate);
+        $newNextOrderDate = $newNextOrderDate->format('Y-m-d');
         return $this->subscriptionRepository->edit($id, ['next_order_date' => $newNextOrderDate]);
+    }
+
+    public function dispatch($id)
+    {
+        return $this->updateNextOrderDate($id, new DateTime());
     }
 }
