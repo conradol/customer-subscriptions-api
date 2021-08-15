@@ -30,6 +30,12 @@ Install dependencies
 ```
 $ composer install
 ```
+Create .env file:
+
+```
+$ cp .env.example .env
+```
+
 Start docker
 
 ```
