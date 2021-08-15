@@ -1,9 +1,5 @@
 version: '3.7'
 
-volumes:
-    logs:
-        driver: local
-
 services:
     api:
         build:
@@ -24,3 +20,9 @@ services:
         environment:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+        volumes:
+            - data:/var/lib/mysql
+volumes:
+    logs:
+        driver: local
+    data:
